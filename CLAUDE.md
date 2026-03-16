@@ -12,10 +12,13 @@ A minimalist, dark-themed static HTML page that lists 6 Spotify playlists as tap
 - Primary target: iPhone 17 (~390px wide); also works on iPad and desktop
 - Font sized so 6 items fit without scrolling on iPhone (uses `clamp()`)
 - Links open via `spotify:playlist:<id>` deep links
-- No underlines; subtle white color shift on hover/focus/active
+- Playlist link color: `#1DB954` (Spotify green), brightens to `#1ed760` on hover
+- No underlines; color shift on hover/focus/active
+- "PLAYLISTS" label: 0.8rem, uppercase, dimmed white, acts as a section eyebrow
+- Favicon: `favicon.svg` (SVG for modern browsers), `favicon.ico` (Safari fallback), `apple-touch-icon.png` 180×180 (iOS/iPadOS home screen)
 
 ## Current state
-Implementation is complete and live. The 6 playlists are currently **placeholders** — they need to be replaced with real playlist names and Spotify IDs.
+Implementation is complete and live. Real playlist data is in place.
 
 ## How to update playlists
 Edit the clearly marked block in `index.html` (lines ~20–27):
@@ -43,5 +46,4 @@ CLAUDE.md    — this file
 ```
 
 ## Pending / nice to have
-- Replace placeholder playlists with real ones (main remaining task)
-- Optionally: `<meta name="apple-mobile-web-app-capable">` if you want to add it to your iPhone home screen as a PWA-lite launcher
+- Optionally: `<meta name="apple-mobile-web-app-capable">` if you want to add it to your iPhone home screen as a PWA-lite launcher (hides Safari chrome when launched from home screen)
