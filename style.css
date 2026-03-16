@@ -46,7 +46,7 @@ nav {
 
 nav a {
   display: block;
-  font-size: clamp(1.2rem, 4.5vw, 1.45rem);
+  font-size: clamp(1.5rem, 6vw, 1.9rem);
   font-weight: 300;
   line-height: 2.2;
   color: #1DB954;
