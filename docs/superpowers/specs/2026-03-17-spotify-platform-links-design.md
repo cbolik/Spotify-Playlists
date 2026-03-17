@@ -42,14 +42,20 @@ spotify:<type>:<id>  →  https://open.spotify.com/<type>/<id>
 
 Supported entity types: `playlist`, `track`, `album`, `artist`, `show`, `episode`.
 
+`deriveHttpsUrl(spotifyUri)` input contract:
+- Valid input: a string matching `spotify:<supportedType>:<id>` with exactly two colons.
+- If the input is malformed (wrong number of segments) or the type is not in the supported list, return `null`. The caller must treat a `null` return as "leave `href` unchanged" — the link stays as the original `spotify:` URI and is not rewritten or intercepted.
+
 ### Platform detection
 
 ```javascript
 const ua = navigator.userAgent;
 const isIOS = /iPhone|iPad|iPod/.test(ua) ||
   (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // iPadOS 13+
-const isMac = /Mac/.test(navigator.platform) && !isIOS;
+const isMac = /Macintosh/.test(ua) && !isIOS;
 ```
+
+`navigator.platform` is deprecated; `isMac` uses `navigator.userAgent` instead. The `isIOS` iPadOS detection still uses `navigator.platform === 'MacIntel'` because it is the only reliable way to distinguish iPadOS 13+ from macOS at runtime — this is a known quirk, intentionally accepted. For a personal launcher of this scope, both heuristics are considered stable enough.
 
 All other platforms (Android, Windows, Linux) fall into the "other" bucket.
 
@@ -58,7 +64,7 @@ All other platforms (Android, Windows, Linux) fall into the "other" bucket.
 | Platform     | Strategy                                                                 |
 |--------------|--------------------------------------------------------------------------|
 | iOS / iPadOS | Rewrite `href` to derived `https://` URL on page load. Universal links route directly into Spotify app, no prompt. |
-| macOS        | Keep `href` as `spotify:`. On click: navigate to `spotify:` URI, start 800ms timer. Cancel timer if `window` loses focus (Spotify launched). If timer fires, redirect to derived `https://` URL (Spotify not installed). |
+| macOS        | Keep `href` as `spotify:`. On click: call `event.preventDefault()`, navigate to `spotify:` URI programmatically, start 800ms timer. Cancel timer if `window` loses focus (interpreted as Spotify launching). If timer fires, redirect to derived `https://` URL. **Known limitation:** any window focus loss (OS notification, app switch) within 800ms also cancels the timer, leaving the user on the page. This is accepted — the failure mode is silent and harmless for a personal launcher. |
 | Other        | Rewrite `href` to derived `https://` URL on page load.                   |
 
 ### script.js structure
