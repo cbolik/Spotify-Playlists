@@ -55,7 +55,7 @@ const isIOS = /iPhone|iPad|iPod/.test(ua) ||
 const isMac = /Macintosh/.test(ua) && !isIOS;
 ```
 
-`navigator.platform` is deprecated; `isMac` uses `navigator.userAgent` instead. The `isIOS` iPadOS detection still uses `navigator.platform === 'MacIntel'` because it is the only reliable way to distinguish iPadOS 13+ from macOS at runtime — this is a known quirk, intentionally accepted. For a personal launcher of this scope, both heuristics are considered stable enough.
+`isMac` uses `navigator.userAgent`; the `isIOS` iPadOS branch retains `navigator.platform === 'MacIntel'` intentionally, as it is the only reliable runtime signal for distinguishing iPadOS 13+ from macOS — a known quirk, accepted. For a personal launcher of this scope, both heuristics are considered stable enough.
 
 All other platforms (Android, Windows, Linux) fall into the "other" bucket.
 
