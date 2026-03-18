@@ -35,4 +35,57 @@
       });
     });
   }
+
+  // --- Carousel navigation ---
+  var carousel = document.querySelector('.carousel');
+  var pages = document.querySelectorAll('.page');
+  var dotsContainer = document.querySelector('.dots');
+  var arrowLeft = document.querySelector('.arrow-left');
+  var arrowRight = document.querySelector('.arrow-right');
+
+  if (carousel && pages.length > 1 && dotsContainer) {
+    // Generate dots
+    pages.forEach(function (_, i) {
+      var dot = document.createElement('button');
+      dot.className = 'dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Go to page ' + (i + 1));
+      dot.addEventListener('click', function () {
+        carousel.scrollTo({ left: i * carousel.offsetWidth, behavior: 'smooth' });
+      });
+      dotsContainer.appendChild(dot);
+    });
+
+    var dots = dotsContainer.querySelectorAll('.dot');
+
+    // Update active dot on scroll
+    function updateDots() {
+      var index = Math.round(carousel.scrollLeft / carousel.offsetWidth);
+      dots.forEach(function (dot, i) {
+        dot.classList.toggle('active', i === index);
+      });
+    }
+
+    carousel.addEventListener('scroll', updateDots);
+
+    // Arrow navigation
+    if (arrowLeft) {
+      arrowLeft.addEventListener('click', function () {
+        carousel.scrollBy({ left: -carousel.offsetWidth, behavior: 'smooth' });
+      });
+    }
+    if (arrowRight) {
+      arrowRight.addEventListener('click', function () {
+        carousel.scrollBy({ left: carousel.offsetWidth, behavior: 'smooth' });
+      });
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') {
+        carousel.scrollBy({ left: -carousel.offsetWidth, behavior: 'smooth' });
+      } else if (e.key === 'ArrowRight') {
+        carousel.scrollBy({ left: carousel.offsetWidth, behavior: 'smooth' });
+      }
+    });
+  }
 })();
