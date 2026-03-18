@@ -17,16 +17,29 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-main {
+.carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  height: 100vh;
+  scrollbar-width: none;
+}
+
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.page {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem 1.5rem;
-  max-width: 480px;
-  margin: 0 auto;
-  width: 100%;
+  padding: 2rem 1.5rem 4rem;
+  overflow-y: auto;
 }
 
 .label {
@@ -63,4 +76,62 @@ nav a:focus-visible {
 
 nav a:active {
   color: rgba(29, 185, 84, 0.55);
+}
+
+.indicators {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  gap: 0.5rem;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  pointer-events: auto;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.dot.active {
+  background: #1DB954;
+}
+
+.arrow {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  line-height: 1;
+  display: none;
+  pointer-events: auto;
+}
+
+@media (hover: hover) {
+  .arrow {
+    display: block;
+  }
+
+  .arrow:hover {
+    color: rgba(255, 255, 255, 0.6);
+  }
 }
